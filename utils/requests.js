@@ -10,6 +10,7 @@
 const _ = require('lodash');
 const ApiError = require('../error/api-error');
 const logger = require('./log.js').logger;
+const appConfig = require('../config');
 
 
 /**
@@ -67,18 +68,6 @@ function productionErrorHandler(err, req, res, next) {
 }
 
 /**
- * Resolve default requests
- * @param {RequestPromise} requestPromise Request Promise Object
- * @param {Express.Response} res Express response object 
- * @param {ResolveRequestOptions} options 
- */
-function resolveDefault(requestPromise, res) {
-    return requestPromise.then(function (response) {
-        return res.status(response.statusCode).json(response.body);
-    });
-}
-
-/**
  * Extract options object to be used to proxy the request in a default manner.
  * Gets the method, uri, headers,qs and body of the called endpoint
  * @param {Express.Request} req express request object
@@ -87,7 +76,7 @@ function defaultTargetOptions(req, uri) {
     return {
         method: req.method,
         uri: uri || req.originalUrl,
-        headers: req.passedHeaders,
+        headers: req.customHeaders,
         body: req.body,
         qs: req.query
     };
@@ -110,11 +99,29 @@ const defaultProxyRequest = (baseRequest, uri) => {
     };
 };
 
+function customHeaders() {
+    return (req, res, next) => {
+        try {
+            req.customHeaders = {
+                [appConfig.tracingHeaderKey]: req.id
+            }
+            //need to check if kauth.grant exists in order to pass JWT
+            if (typeof req.kauth.grant.access_token.token !== 'undefined') {
+                req.customHeaders[appConfig.jwtHeaderKey] = req.kauth.grant.access_token.token;
+            }
+            next();
+        } catch (err) {
+            next(err);
+        }
+    }
+}
+
 
 module.exports = {
     middleware: {
-        cors: cors,
-        defaultErrorHandler
+        cors,
+        defaultErrorHandler,
+        customHeaders
     },
     defaultProxyHandler: defaultProxyRequest,
     defaultTargetOptions: defaultTargetOptions
