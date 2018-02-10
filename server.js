@@ -20,6 +20,8 @@ app.use(tracing(appConfig.tracingHeaderKey));
 
 app.use(security.middleware());
 
+app.use(reqUtils.middleware.customHeaders());
+
 const dummyRoutes = require('./controller/dummy');
 
 app.use(`/dummy`, dummyRoutes);
