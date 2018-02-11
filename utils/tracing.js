@@ -2,6 +2,10 @@ const uuid = require('uuid');
 
 const REQ_ID_KEY = 'x-request-id';
 
+/**
+ * Add request id to the specified header key to response and request objects. Also inject id property to the req object for easier usage within the app.
+ * @param {String} headerKey Header name to append request id to. Defaults to `x-request-id` 
+ */
 function addRequestId(headerKey = REQ_ID_KEY) {
     if (typeof headerKey !== 'string') {
         throw new Error('Header key should be a string');
