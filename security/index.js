@@ -5,10 +5,10 @@ const roleCheck = require('./role-check');
 const helpers = require('./auth-helpers');
 
 const kcConfig = {
-    clientId: appConfig.KC_CLIENT_ID,
+    clientId: appConfig.kcClientId,
     bearerOnly: true,
-    serverUrl: appConfig.KC_SERVER_URL,
-    realm: appConfig.KC_REALM,
+    serverUrl: appConfig.kcServerUrl,
+    realm: appConfig.kcRealm,
     sslRequired: 'external',
     'confidential-port': 0
 };
