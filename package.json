@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tudor33sud/stay-safe-api-gateway.git"
+  },
   "author": "Tudor Suditu",
   "license": "ISC",
   "dependencies": {
