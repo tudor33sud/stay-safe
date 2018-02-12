@@ -22,9 +22,9 @@ app.use(security.middleware());
 
 app.use(reqUtils.middleware.customHeaders());
 
-const dummyRoutes = require('./controller/dummy');
+const tagsRoutes = require('./controller/tags');
 
-app.use(`/dummy`, dummyRoutes);
+app.use(`/tags`, tagsRoutes);
 
 
 //error handling middleware
