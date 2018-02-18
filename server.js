@@ -21,8 +21,10 @@ app.use(security.middleware());
 app.use(reqUtils.middleware.customHeaders());
 
 const tagsRoutes = require('./controller/tags');
+const eventsRoutes = require('./controller/events');
 
 app.use(`/tags`, tagsRoutes);
+app.use(`/events`, eventsRoutes);
 
 
 //error handling middleware
