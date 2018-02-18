@@ -4,13 +4,13 @@ const router = express.Router();
 const appConfig = require('../config');
 const security = require('../security');
 const reqUtils = require('../utils/requests');
-const rp = require('request-promise');
+const request = require('request');
 
-const dataServiceRequest = rp.defaults({
+const dataServiceRequest = request.defaults({
     baseUrl: appConfig.dataServiceUrl,
-    json: true,
-    resolveWithFullResponse: true
+    json: true
 });
+
 
 router.get('/', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest));
 
