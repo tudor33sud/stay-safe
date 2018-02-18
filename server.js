@@ -9,8 +9,6 @@ const reqUtils = require('./utils/requests');
 const tracing = require('./utils/tracing');
 const security = require('./security');
 const logger = require('./utils/log').logger;
-//parse JSON payloads
-app.use(express.json({ limit: '2mb' }));
 
 //allow CORS
 app.use(reqUtils.middleware.cors());
