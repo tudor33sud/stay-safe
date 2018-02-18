@@ -111,7 +111,7 @@ function customHeaders() {
                 [appConfig.tracingHeaderKey]: req.id
             }
             //need to check if kauth.grant exists in order to pass JWT
-            if (typeof req.kauth.grant.access_token.token !== 'undefined') {
+            if (typeof req.kauth.grant !== 'undefined') {
                 req.customHeaders[appConfig.jwtHeaderKey] = req.kauth.grant.access_token.token;
             }
             next();
