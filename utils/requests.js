@@ -84,20 +84,25 @@ function defaultTargetOptions(req, uri) {
 
 /**
  * Default Proxy Handler
- * @param {RequestPromise.defaults} baseRequest Requst Promise base request(needed for initial configuration baseUrl, json response etc.) 
- * @param {String} uri override original URI when proxying with custom one. If not specified, the original URI which was triggered will be use
+ * @param {Request.defaults} baseRequest Request base request(contains baseUrl and default configs)
+ * @param {String} uri override original URI when proxying with a custom one. If not specified, the original URI which was triggered will be used
  */
-const defaultProxyRequest = (baseRequest, uri) => {
+const streamProxyRequest = (baseRequest, uri) => {
     return async (req, res, next) => {
         try {
-            const options = defaultTargetOptions(req, uri);
-            const response = await baseRequest(options);
-            res.status(response.statusCode).json(response.body);
+            req.pipe(baseRequest({
+                method: req.method,
+                headers: req.customHeaders, uri: uri || req.originalUrl,
+                qs: req.query,
+                body: req.body
+            })).on('error', error => {
+                next(error);
+            }).pipe(res);
         } catch (err) {
             next(err);
         }
     };
-};
+}
 
 function customHeaders() {
     return (req, res, next) => {
@@ -123,6 +128,5 @@ module.exports = {
         defaultErrorHandler,
         customHeaders
     },
-    defaultProxyHandler: defaultProxyRequest,
-    defaultTargetOptions: defaultTargetOptions
+    defaultProxyHandler: streamProxyRequest
 }
