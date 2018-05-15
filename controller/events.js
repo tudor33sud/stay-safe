@@ -17,6 +17,8 @@ router.get('/', [security.guards.authenticated], reqUtils.defaultProxyHandler(da
 router.post('/', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest));
 
 router.delete('/:eventId', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest));
-router.post('/:eventId/attachments', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest))
+
+router.put('/:eventId/attachments', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest))
+
 router.get('/:eventId/attachments/:attachmentId', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest))
 module.exports = router;
