@@ -14,6 +14,6 @@ const dataServiceRequest = request.defaults({
 
 router.get('/', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest));
 
-router.post('/', [security.guards.authenticated], reqUtils.defaultProxyHandler(dataServiceRequest));
+router.post('/', [security.guards.admin], reqUtils.defaultProxyHandler(dataServiceRequest));
 
 module.exports = router;
