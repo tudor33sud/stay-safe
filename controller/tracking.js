@@ -13,5 +13,6 @@ const dataServiceRequest = request.defaults({
 
 router.get('/events', [security.guards.ambulance], reqUtils.defaultProxyHandler(dataServiceRequest));
 router.put('/events/:eventId/performer', [security.guards.ambulance], reqUtils.defaultProxyHandler(dataServiceRequest));
+router.post('/events/:eventId/actions/finish', [security.guards.ambulance], reqUtils.defaultProxyHandler(dataServiceRequest));
 
 module.exports = router;
